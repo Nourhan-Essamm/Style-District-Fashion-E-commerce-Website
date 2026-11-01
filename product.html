@@ -1,0 +1,357 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Details | Style District</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Announcement -->
+    <div class="announcement-bar">
+        FREE SHIPPING ON ORDERS OVER $100
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white sticky-top">
+        <div class="container">
+
+            <a class="navbar-brand" href="index.html">STYLE DISTRICT</a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="navbar-icons">
+                    <a href="wishlist.html">
+                        <i class="bi bi-heart"></i>
+                        <span class="wishlist-count">0</span>
+                    </a>
+
+                    <a href="cart.html">
+                        <i class="bi bi-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Breadcrumb -->
+    <div class="container py-4">
+        <p class="product-breadcrumb">
+            <a href="index.html">Home</a> /
+            <a href="shop.html">Shop</a> /
+            <span id="breadcrumb-name">Product</span>
+        </p>
+    </div>
+
+    <!-- Product Details -->
+    <section class="product-details-section pb-5">
+        <div class="container">
+
+            <div id="product-details" class="row g-5">
+
+                <!-- Product Image -->
+                <div class="col-lg-6">
+                    <div class="product-details-image">
+                        <img id="detail-image" src="" alt="Product Image">
+                    </div>
+                </div>
+
+                <!-- Product Information -->
+                <div class="col-lg-6">
+
+                    <p id="detail-category" class="section-subtitle"></p>
+
+                    <h1 id="detail-name" class="product-details-title"></h1>
+
+                    <div class="product-details-price mb-4">
+                        <span id="detail-price"></span>
+                        <span id="detail-old-price" class="old-price"></span>
+                    </div>
+
+                    <p id="detail-description" class="product-description"></p>
+
+                    <hr>
+
+                    <!-- Sizes -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">Select Size</h6>
+                        <div id="size-options" class="size-options"></div>
+                    </div>
+
+                    <!-- Colors -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">Available Colors</h6>
+                        <div id="color-options" class="color-options"></div>
+                    </div>
+
+                    <!-- Quantity -->
+                    <div class="mb-4">
+                        <h6 class="fw-bold mb-3">Quantity</h6>
+
+                        <div class="quantity-control">
+                            <button id="decrease-qty" type="button">−</button>
+                            <span id="quantity">1</span>
+                            <button id="increase-qty" type="button">+</button>
+                        </div>
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="product-detail-actions">
+                        <button id="detail-add-cart" class="btn btn-dark">
+                            ADD TO BAG
+                        </button>
+
+                        <button id="detail-wishlist" class="btn btn-outline-dark">
+                            <i class="bi bi-heart"></i> ADD TO WISHLIST
+                        </button>
+                    </div>
+
+                    <div class="product-extra-info mt-4">
+                        <p><i class="bi bi-truck"></i> Free shipping on orders over $100</p>
+                        <p><i class="bi bi-arrow-repeat"></i> Easy returns within 14 days</p>
+                        <p><i class="bi bi-shield-check"></i> Secure shopping experience</p>
+                    </div>
+
+                </div>
+            </div>
+
+            <!-- Product Not Found -->
+            <div id="product-not-found" class="text-center py-5" style="display:none;">
+                <h2>Product Not Found</h2>
+                <p>Sorry, we couldn't find this product.</p>
+                <a href="shop.html" class="btn btn-dark mt-3">Back to Shop</a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <h3>STYLE DISTRICT</h3>
+            <p>Timeless style. Everyday confidence.</p>
+
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <p class="copyright">© 2026 Style District. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Get selected product ID from URL
+        const params = new URLSearchParams(window.location.search);
+        const productId = Number(params.get("id"));
+
+        // Find product
+        const product = allProducts.find(item => item.id === productId);
+
+        // HTML elements
+        const detailsContainer = document.getElementById("product-details");
+        const notFound = document.getElementById("product-not-found");
+
+        let selectedSize = "";
+        let selectedColor = "";
+        let quantity = 1;
+
+        if (!product) {
+
+            detailsContainer.style.display = "none";
+            notFound.style.display = "block";
+
+        } else {
+
+            // Display product information
+            document.title = product.name + " | Style District";
+
+            document.getElementById("detail-image").src = product.image;
+            document.getElementById("detail-image").alt = product.name;
+
+            document.getElementById("detail-category").textContent =
+                product.category.toUpperCase();
+
+            document.getElementById("detail-name").textContent = product.name;
+
+            document.getElementById("detail-price").textContent =
+                "$" + product.price;
+
+            document.getElementById("detail-description").textContent =
+                product.description;
+
+            document.getElementById("breadcrumb-name").textContent =
+                product.name;
+
+            if (product.oldPrice) {
+                document.getElementById("detail-old-price").textContent =
+                    "$" + product.oldPrice;
+            }
+
+            // Display sizes
+            const sizeContainer = document.getElementById("size-options");
+
+            (product.sizes || []).forEach((size, index) => {
+
+                const button = document.createElement("button");
+
+                button.type = "button";
+                button.textContent = size;
+                button.className = "size-option";
+
+                button.addEventListener("click", () => {
+
+                    selectedSize = size;
+
+                    sizeContainer.querySelectorAll("button").forEach(btn =>
+                        btn.classList.remove("selected")
+                    );
+
+                    button.classList.add("selected");
+                });
+
+                sizeContainer.appendChild(button);
+
+                if (index === 0) button.click();
+
+            });
+
+            // Display colors
+            const colorContainer = document.getElementById("color-options");
+
+            (product.colors || []).forEach((color, index) => {
+
+                const button = document.createElement("button");
+
+                button.type = "button";
+                button.textContent = color;
+                button.className = "color-option";
+
+                button.addEventListener("click", () => {
+
+                    selectedColor = color;
+
+                    colorContainer.querySelectorAll("button").forEach(btn =>
+                        btn.classList.remove("selected")
+                    );
+
+                    button.classList.add("selected");
+                });
+
+                colorContainer.appendChild(button);
+
+                if (index === 0) button.click();
+
+            });
+
+            // Quantity controls
+            const quantityDisplay = document.getElementById("quantity");
+
+            document.getElementById("increase-qty").addEventListener("click", () => {
+
+                quantity++;
+                quantityDisplay.textContent = quantity;
+
+            });
+
+            document.getElementById("decrease-qty").addEventListener("click", () => {
+
+                if (quantity > 1) {
+                    quantity--;
+                    quantityDisplay.textContent = quantity;
+                }
+
+            });
+
+            // Add to cart
+            document.getElementById("detail-add-cart").addEventListener("click", () => {
+
+                const cart = getCart();
+
+                const existingItem = cart.find(item =>
+                    item.id === product.id &&
+                    item.size === selectedSize &&
+                    item.color === selectedColor
+                );
+
+                if (existingItem) {
+
+                    existingItem.quantity += quantity;
+
+                } else {
+
+                    cart.push({
+                        id: product.id,
+                        name: product.name,
+                        price: product.price,
+                        image: product.image,
+                        quantity: quantity,
+                        size: selectedSize,
+                        color: selectedColor
+                    });
+
+                }
+
+                saveCart(cart);
+                updateHeaderCounts();
+
+                alert(product.name + " added to your bag!");
+
+            });
+
+            // Wishlist button
+            const wishlistButton = document.getElementById("detail-wishlist");
+
+            function updateWishlistButton() {
+
+                const isFavorite = getWishlist().includes(product.id);
+
+                wishlistButton.innerHTML = isFavorite
+                    ? '<i class="bi bi-heart-fill"></i> ADDED TO WISHLIST'
+                    : '<i class="bi bi-heart"></i> ADD TO WISHLIST';
+
+            }
+
+            updateWishlistButton();
+
+            wishlistButton.addEventListener("click", () => {
+
+                toggleWishlist(product.id);
+                updateWishlistButton();
+
+            });
+
+        }
+    </script>
+
+</body>
+</html>

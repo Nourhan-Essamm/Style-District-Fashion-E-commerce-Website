@@ -1,0 +1,237 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shop | Style District</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Announcement Bar -->
+    <div class="announcement-bar">
+        FREE SHIPPING ON ORDERS OVER $100
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white sticky-top">
+        <div class="container">
+
+            <a class="navbar-brand" href="index.html">
+                STYLE DISTRICT
+            </a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="index.html">Home</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" href="shop.html">Shop</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="about.html">About</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="contact.html">Contact</a>
+                    </li>
+                </ul>
+
+                <div class="navbar-icons">
+                    <a href="wishlist.html" aria-label="Wishlist">
+                        <i class="bi bi-heart"></i>
+                        <span class="wishlist-count">0</span>
+                    </a>
+
+                    <a href="cart.html" aria-label="Shopping bag">
+                        <i class="bi bi-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Shop Header -->
+    <section class="shop-header">
+        <div class="container text-center">
+            <p class="section-subtitle">DISCOVER YOUR STYLE</p>
+            <h1>Our Collection</h1>
+            <p>Explore timeless pieces made for everyday elegance.</p>
+        </div>
+    </section>
+
+    <!-- Shop Content -->
+    <section class="shop-section py-5">
+        <div class="container">
+
+            <!-- Filters -->
+            <div class="shop-toolbar row align-items-center g-3 mb-4">
+
+                <div class="col-lg-5">
+                    <div class="shop-search">
+                        <i class="bi bi-search"></i>
+                        <input type="text" id="search-input"
+                               class="form-control"
+                               placeholder="Search for products...">
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6">
+                    <select id="category-filter" class="form-select">
+                        <option value="all">All Categories</option>
+                        <option value="women">Women</option>
+                        <option value="men">Men</option>
+                        <option value="accessories">Accessories</option>
+                    </select>
+                </div>
+
+                <div class="col-lg-4 col-md-6">
+                    <select id="sort-filter" class="form-select">
+                        <option value="default">Sort By: Featured</option>
+                        <option value="low-high">Price: Low to High</option>
+                        <option value="high-low">Price: High to Low</option>
+                        <option value="name">Name: A to Z</option>
+                    </select>
+                </div>
+
+            </div>
+
+            <!-- Results Count -->
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <p class="mb-0" id="products-count">Showing all products</p>
+                <button class="btn btn-link text-dark" id="clear-filters">
+                    Clear Filters
+                </button>
+            </div>
+
+            <!-- Products -->
+            <div class="row" id="shop-products"></div>
+
+            <!-- Empty Message -->
+            <div id="no-products" class="text-center py-5" style="display:none;">
+                <i class="bi bi-search fs-1"></i>
+                <h4 class="mt-3">No products found</h4>
+                <p>Try changing your search or filters.</p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <h3>STYLE DISTRICT</h3>
+            <p>Timeless style. Everyday confidence.</p>
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+            <p class="copyright">
+                © 2026 Style District. All rights reserved.
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Shop Page Functionality
+
+        const shopContainer = document.getElementById("shop-products");
+        const searchInput = document.getElementById("search-input");
+        const categoryFilter = document.getElementById("category-filter");
+        const sortFilter = document.getElementById("sort-filter");
+        const productsCount = document.getElementById("products-count");
+        const noProducts = document.getElementById("no-products");
+        const clearFilters = document.getElementById("clear-filters");
+
+        // Read category from URL
+        const urlParams = new URLSearchParams(window.location.search);
+        const selectedCategory = urlParams.get("category");
+
+        if (selectedCategory) {
+            categoryFilter.value = selectedCategory;
+        }
+
+        // Display products
+        function displayShopProducts() {
+            let filteredProducts = [...(window.products || [])];
+
+            const searchValue = searchInput.value.toLowerCase().trim();
+            const categoryValue = categoryFilter.value;
+            const sortValue = sortFilter.value;
+
+            // Search
+            if (searchValue) {
+                filteredProducts = filteredProducts.filter(product =>
+                    product.name.toLowerCase().includes(searchValue)
+                );
+            }
+
+            // Category Filter
+            if (categoryValue !== "all") {
+                filteredProducts = filteredProducts.filter(product =>
+                    product.category.toLowerCase() === categoryValue
+                );
+            }
+
+            // Sorting
+            if (sortValue === "low-high") {
+                filteredProducts.sort((a, b) => a.price - b.price);
+            } else if (sortValue === "high-low") {
+                filteredProducts.sort((a, b) => b.price - a.price);
+            } else if (sortValue === "name") {
+                filteredProducts.sort((a, b) =>
+                    a.name.localeCompare(b.name)
+                );
+            }
+
+            // Render
+            shopContainer.innerHTML = filteredProducts
+                .map(product => createProductCard(product))
+                .join("");
+
+            productsCount.textContent =
+                `Showing ${filteredProducts.length} of ${allProducts.length} products`;
+
+            noProducts.style.display =
+                filteredProducts.length === 0 ? "block" : "none";
+        }
+
+        // Events
+        searchInput.addEventListener("input", displayShopProducts);
+        categoryFilter.addEventListener("change", displayShopProducts);
+        sortFilter.addEventListener("change", displayShopProducts);
+
+        clearFilters.addEventListener("click", function() {
+            searchInput.value = "";
+            categoryFilter.value = "all";
+            sortFilter.value = "default";
+            displayShopProducts();
+        });
+
+        // Initial display
+        displayShopProducts();
+    </script>
+
+</body>
+</html>

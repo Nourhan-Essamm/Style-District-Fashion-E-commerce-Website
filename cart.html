@@ -1,0 +1,317 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shopping Bag | Style District</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <!-- Announcement -->
+    <div class="announcement-bar">
+        FREE SHIPPING ON ORDERS OVER $100
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white sticky-top">
+        <div class="container">
+
+            <a class="navbar-brand" href="index.html">STYLE DISTRICT</a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="navbar-icons">
+                    <a href="wishlist.html">
+                        <i class="bi bi-heart"></i>
+                        <span class="wishlist-count">0</span>
+                    </a>
+
+                    <a href="cart.html">
+                        <i class="bi bi-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Cart Header -->
+    <section class="cart-header">
+        <div class="container text-center">
+            <p class="section-subtitle">YOUR SELECTION</p>
+            <h1>Shopping Bag</h1>
+            <p>Review your items before checkout.</p>
+        </div>
+    </section>
+
+    <!-- Cart Section -->
+    <section class="cart-section py-5">
+        <div class="container">
+
+            <div class="row g-5">
+
+                <!-- Cart Items -->
+                <div class="col-lg-8">
+
+                    <div class="cart-items-header">
+                        <h5>Your Items</h5>
+                        <span id="cart-items-count">0 Items</span>
+                    </div>
+
+                    <div id="cart-items-container"></div>
+
+                    <!-- Empty Cart -->
+                    <div id="empty-cart" class="text-center py-5">
+                        <i class="bi bi-bag-x"></i>
+                        <h3>Your bag is currently empty</h3>
+                        <p>Discover our latest collection and find your favorites.</p>
+                        <a href="shop.html" class="btn btn-dark mt-3">CONTINUE SHOPPING</a>
+                    </div>
+
+                </div>
+
+                <!-- Order Summary -->
+                <div class="col-lg-4">
+
+                    <div class="cart-summary">
+                        <h4>Order Summary</h4>
+
+                        <div class="summary-row">
+                            <span>Subtotal</span>
+                            <span id="cart-subtotal">$0.00</span>
+                        </div>
+
+                        <div class="summary-row">
+                            <span>Shipping</span>
+                            <span id="cart-shipping">Free</span>
+                        </div>
+
+                        <hr>
+
+                        <div class="summary-row summary-total">
+                            <span>Total</span>
+                            <span id="cart-total">$0.00</span>
+                        </div>
+
+                        <p class="shipping-note">
+                            <i class="bi bi-truck"></i>
+                            Free shipping on orders over $100.
+                        </p>
+
+                        <button id="checkout-btn" class="btn btn-dark w-100">
+                            PROCEED TO CHECKOUT
+                        </button>
+
+                        <a href="shop.html" class="continue-shopping">
+                            Continue Shopping
+                        </a>
+
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <h3>STYLE DISTRICT</h3>
+            <p>Timeless style. Everyday confidence.</p>
+
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <p class="copyright">© 2026 Style District. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        const cartContainer = document.getElementById("cart-items-container");
+        const emptyCart = document.getElementById("empty-cart");
+        const itemsCount = document.getElementById("cart-items-count");
+
+        const subtotalElement = document.getElementById("cart-subtotal");
+        const shippingElement = document.getElementById("cart-shipping");
+        const totalElement = document.getElementById("cart-total");
+
+        function renderCart() {
+
+            const cart = getCart();
+
+            const totalItems = cart.reduce((total, item) =>
+                total + item.quantity, 0
+            );
+
+            const subtotal = cart.reduce((total, item) =>
+                total + (item.price * item.quantity), 0
+            );
+
+            const shipping = subtotal === 0 || subtotal >= 100 ? 0 : 10;
+
+            const total = subtotal + shipping;
+
+            itemsCount.textContent = `${totalItems} Items`;
+
+            subtotalElement.textContent = `$${subtotal.toFixed(2)}`;
+            shippingElement.textContent = shipping === 0 ? "Free" : `$${shipping.toFixed(2)}`;
+            totalElement.textContent = `$${total.toFixed(2)}`;
+
+            if (cart.length === 0) {
+
+                cartContainer.innerHTML = "";
+                emptyCart.style.display = "block";
+
+                return;
+            }
+
+            emptyCart.style.display = "none";
+
+            cartContainer.innerHTML = cart.map(item => `
+
+                <div class="cart-item">
+
+                    <div class="cart-item-image">
+                        <img src="${item.image}" alt="${item.name}">
+                    </div>
+
+                    <div class="cart-item-details">
+
+                        <h5>${item.name}</h5>
+
+                        <p class="cart-item-price">$${item.price.toFixed(2)}</p>
+
+                        <p class="cart-item-option">
+                            Size: ${item.size || "Not selected"}
+                        </p>
+
+                        <p class="cart-item-option">
+                            Color: ${item.color || "Not selected"}
+                        </p>
+
+                        <div class="cart-item-actions">
+
+                            <div class="cart-quantity">
+                                <button type="button" data-action="decrease" data-id="${item.id}" data-size="${item.size || ""}" data-color="${item.color || ""}">−</button>
+
+                                <span>${item.quantity}</span>
+
+                                <button type="button" data-action="increase" data-id="${item.id}" data-size="${item.size || ""}" data-color="${item.color || ""}">+</button>
+                            </div>
+
+                            <button type="button" class="remove-cart-item"
+                                data-action="remove"
+                                data-id="${item.id}"
+                                data-size="${item.size || ""}"
+                                data-color="${item.color || ""}">
+                                <i class="bi bi-trash"></i> Remove
+                            </button>
+
+                        </div>
+
+                    </div>
+
+                    <div class="cart-item-total">
+                        $${(item.price * item.quantity).toFixed(2)}
+                    </div>
+
+                </div>
+
+            `).join("");
+
+        }
+
+        cartContainer.addEventListener("click", function(event) {
+
+            const button = event.target.closest("[data-action]");
+
+            if (!button) return;
+
+            const action = button.dataset.action;
+            const id = Number(button.dataset.id);
+            const size = button.dataset.size;
+            const color = button.dataset.color;
+
+            let cart = getCart();
+
+            const item = cart.find(product =>
+                product.id === id &&
+                (product.size || "") === size &&
+                (product.color || "") === color
+            );
+
+            if (!item) return;
+
+            if (action === "increase") {
+                item.quantity++;
+            }
+
+            if (action === "decrease") {
+                item.quantity--;
+
+                if (item.quantity <= 0) {
+                    cart = cart.filter(product => product !== item);
+                }
+            }
+
+            if (action === "remove") {
+                cart = cart.filter(product => product !== item);
+            }
+
+            saveCart(cart);
+            updateHeaderCounts();
+            renderCart();
+
+        });
+
+        // Checkout
+        document.getElementById("checkout-btn").addEventListener("click", function() {
+
+            const cart = getCart();
+
+            if (cart.length === 0) {
+                alert("Your shopping bag is empty!");
+                return;
+            }
+
+            alert("Thank you! Checkout functionality will be available soon.");
+
+        });
+
+        renderCart();
+    </script>
+
+</body>
+</html>

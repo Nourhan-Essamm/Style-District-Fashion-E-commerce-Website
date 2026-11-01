@@ -1,0 +1,209 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Wishlist | Style District</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&family=Playfair+Display:wght@500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+
+    <div class="announcement-bar">
+        FREE SHIPPING ON ORDERS OVER $100
+    </div>
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg bg-white sticky-top">
+        <div class="container">
+
+            <a class="navbar-brand" href="index.html">STYLE DISTRICT</a>
+
+            <button class="navbar-toggler" type="button"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#mainNavbar">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="mainNavbar">
+
+                <ul class="navbar-nav mx-auto">
+                    <li class="nav-item"><a class="nav-link" href="index.html">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="shop.html">Shop</a></li>
+                    <li class="nav-item"><a class="nav-link" href="about.html">About</a></li>
+                    <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
+                </ul>
+
+                <div class="navbar-icons">
+                    <a href="wishlist.html">
+                        <i class="bi bi-heart"></i>
+                        <span class="wishlist-count">0</span>
+                    </a>
+
+                    <a href="cart.html">
+                        <i class="bi bi-bag"></i>
+                        <span class="cart-count">0</span>
+                    </a>
+                </div>
+
+            </div>
+        </div>
+    </nav>
+
+    <!-- Wishlist Header -->
+    <section class="wishlist-header">
+        <div class="container text-center">
+            <p class="section-subtitle">YOUR FAVORITES</p>
+            <h1>My Wishlist</h1>
+            <p>All the pieces you love, in one place.</p>
+        </div>
+    </section>
+
+    <!-- Wishlist Content -->
+    <section class="wishlist-section py-5">
+        <div class="container">
+
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h4>Your Saved Items</h4>
+                <span id="wishlist-total">0 Items</span>
+            </div>
+
+            <div class="row" id="wishlist-products"></div>
+
+            <!-- Empty Wishlist -->
+            <div id="empty-wishlist" class="text-center py-5" style="display:none;">
+                <i class="bi bi-heart fs-1"></i>
+                <h3 class="mt-3">Your Wishlist Is Empty</h3>
+                <p class="text-muted">
+                    You haven't saved any products yet.
+                </p>
+                <a href="shop.html" class="btn btn-dark mt-3">
+                    EXPLORE PRODUCTS
+                </a>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="container text-center">
+            <h3>STYLE DISTRICT</h3>
+            <p>Timeless style. Everyday confidence.</p>
+
+            <div class="footer-links">
+                <a href="index.html">Home</a>
+                <a href="shop.html">Shop</a>
+                <a href="about.html">About</a>
+                <a href="contact.html">Contact</a>
+            </div>
+
+            <p class="copyright">© 2026 Style District. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="js/products.js"></script>
+    <script src="js/main.js"></script>
+
+    <script>
+        // Wishlist Page
+
+        const wishlistContainer = document.getElementById("wishlist-products");
+        const emptyWishlist = document.getElementById("empty-wishlist");
+        const wishlistTotal = document.getElementById("wishlist-total");
+
+        function renderWishlist() {
+
+            const wishlistIds = getWishlist();
+
+            const savedProducts = allProducts.filter(product =>
+                wishlistIds.includes(product.id)
+            );
+
+            wishlistTotal.textContent =
+                `${savedProducts.length} Items`;
+
+            if (savedProducts.length === 0) {
+                wishlistContainer.innerHTML = "";
+                emptyWishlist.style.display = "block";
+                return;
+            }
+
+            emptyWishlist.style.display = "none";
+
+            wishlistContainer.innerHTML = savedProducts.map(product => `
+                <div class="col-lg-3 col-md-6 mb-4">
+                    <div class="product-card">
+
+                        <div class="product-image">
+                            <a href="product.html?id=${product.id}">
+                                <img src="${product.image}" alt="${product.name}">
+                            </a>
+
+                            <button class="wishlist-btn active"
+                                    data-remove-id="${product.id}">
+                                <i class="bi bi-heart-fill"></i>
+                            </button>
+                        </div>
+
+                        <div class="product-info">
+
+                            <p class="product-category">
+                                ${product.category}
+                            </p>
+
+                            <h5>
+                                <a href="product.html?id=${product.id}">
+                                    ${product.name}
+                                </a>
+                            </h5>
+
+                            <div class="product-price">
+                                $${product.price}
+                            </div>
+
+                            <button class="add-to-cart-btn"
+                                    data-wishlist-cart="${product.id}">
+                                ADD TO BAG
+                            </button>
+
+                        </div>
+                    </div>
+                </div>
+            `).join("");
+        }
+
+        // Remove from wishlist
+        wishlistContainer.addEventListener("click", function(event) {
+
+            const removeButton = event.target.closest("[data-remove-id]");
+
+            if (removeButton) {
+                const id = Number(removeButton.dataset.removeId);
+
+                toggleWishlist(id);
+                renderWishlist();
+            }
+
+            // Add wishlist product to cart
+            const cartButton = event.target.closest("[data-wishlist-cart]");
+
+            if (cartButton) {
+                const id = Number(cartButton.dataset.wishlistCart);
+
+                addToCart(id);
+            }
+        });
+
+        // Initial display
+        renderWishlist();
+    </script>
+
+</body>
+</html>
